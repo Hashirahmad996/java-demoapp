@@ -2,7 +2,8 @@ name: CI Build App
 
 on:
   push:
-    branches: [Main]
+    branches:
+      - main
     paths:
       - "src/**"
       - ".github/workflows/**"
