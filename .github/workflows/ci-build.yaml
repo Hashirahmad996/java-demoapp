@@ -36,7 +36,7 @@ jobs:
           path: target/surefire-reports/*.xml
 
       - name: "Publish test results"
-        uses: EnricoMi/publish-unit-test-result-action@v4
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ always() && !env.ACT }}
         with:
           files: target/surefire-reports/*.xml
