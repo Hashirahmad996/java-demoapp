@@ -12,6 +12,10 @@ on:
 env:
   IMAGE_REG: ghcr.io
   IMAGE_REPO: Hashirahmad996/java-demoapp
+  
+permissions:
+  contents: read
+  checks: write
 
 jobs:
   test:
@@ -20,6 +24,9 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v2
+        
+      - name: "Make mvnw executable"
+        run: chmod +x ./mvnw  
 
       - name: "Run linting"
         run: make lint
@@ -36,7 +43,7 @@ jobs:
           path: target/surefire-reports/*.xml
 
       - name: "Publish test results"
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action@v1
         if: ${{ always() && !env.ACT }}
         with:
           files: target/surefire-reports/*.xml
@@ -60,7 +67,7 @@ jobs:
       - name: "Push to container registry"
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: |
-          echo ${{ secrets.Git_path }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
           make push
 
    #   - name: "Trigger AKS release pipeline"
