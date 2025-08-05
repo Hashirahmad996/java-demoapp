@@ -13,7 +13,7 @@ COPY .mvn ./.mvn
 COPY mvnw ./mvnw
 COPY pom.xml .
 COPY src ./src
-
+RUN chmod +x ./mvnw
 RUN ./mvnw -ntp clean package -Dapp.version=$APP_VERSION -DskipTests -Dmaven.test.skip=true -Dcheckstyle.skip=true
 RUN mv target/java-demoapp-${APP_VERSION}.jar target/java-demoapp.jar
 
