@@ -8,8 +8,8 @@ provider "oci" {
 
 module "vm" {
   source            = "./modules/compute_instance"
-  compartment_ocid  "GkgN:ME-DUBAI-1-AD-1"
-  availability_domain = var.availability_domain
+  compartment_ocid  = var.compartment_ocid
+  availability_domain = "GkgN:ME-DUBAI-1-AD-1"
   image_ocid        = var.image_ocid
   shape             = "VM.Standard.E2.1.Micro"
   ocpus             = 1
