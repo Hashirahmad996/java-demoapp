@@ -37,12 +37,12 @@ resource "oci_core_instance" "vm" {
   }
   
   metadata = {
-  ssh_authorized_keys = file(var.ssh_public_key)
+  ssh_authorized_keys = var.ssh_public_key
 
   user_data = base64encode(<<-EOF
                 #!/bin/bash
 
-                docker run -d -p 8080:8080 ghcr.io/hashirahmad996/java-demoapp:05-08-2025.1637 
+                docker run -d -p 8080:8080 ghcr.io/hashirahmad996/java-demoapp:05-08-2025.1637:latest 
                 EOF
     )
  
