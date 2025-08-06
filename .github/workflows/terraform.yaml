@@ -1,0 +1,86 @@
+name: 'Setup Infra and Deploy the App'
+
+on:
+  workflow_run:
+    workflows: ["CI Build App"]
+    types:
+      - completed
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./deploy/terraform/oci_vm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Create Private Key File
+        run: |
+          echo "${{ secrets.TF_VAR_PRIVATE_KEY_PATH }}" > private_key.pem
+          chmod 600 private_key.pem
+        
+      - name: Create SSH Public Key File
+        run: echo "${{ secrets.TF_VAR_SSH_PUBLIC_KEY }}" > ssh_key.pub
+
+      - name: Terraform Init
+        id: init
+        env:
+          # The TF_VAR_ secrets are automatically picked up by Terraform
+          TF_VAR_tenancy_ocid: ${{ secrets.TF_VAR_TENANCY_OCID }}
+          TF_VAR_user_ocid: ${{ secrets.TF_VAR_USER_OCID }}
+          TF_VAR_fingerprint: ${{ secrets.TF_VAR_FINGERPRINT }}
+          TF_VAR_region: ${{ secrets.TF_VAR_REGION }}
+          TF_VAR_compartment_ocid: ${{ secrets.TF_VAR_COMPARTMENT_OCID }}
+          TF_VAR_vcn_id: ${{ secrets.TF_VAR_VCN_ID }}
+          TF_VAR_image_ocid: ${{ secrets.TF_VAR_IMAGE_OCID }}
+
+          # We override the path variables to point to the files we just created
+          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci_vm/private_key.pem"
+          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci_vm/ssh_key.pub"
+        run: terraform init -input=false
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        env:
+          TF_VAR_tenancy_ocid: ${{ secrets.TF_VAR_TENANCY_OCID }}
+          TF_VAR_user_ocid: ${{ secrets.TF_VAR_USER_OCID }}
+          TF_VAR_fingerprint: ${{ secrets.TF_VAR_FINGERPRINT }}
+          TF_VAR_region: ${{ secrets.TF_VAR_REGION }}
+          TF_VAR_compartment_ocid: ${{ secrets.TF_VAR_COMPARTMENT_OCID }}
+          TF_VAR_vcn_id: ${{ secrets.TF_VAR_VCN_ID }}
+          TF_VAR_image_ocid: ${{ secrets.TF_VAR_IMAGE_OCID }}
+          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci_vm/private_key.pem"
+          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci_vm/ssh_key.pub"
+        run: terraform plan -no-color -input=false
+
+      - name: Terraform Apply
+        env:
+          TF_VAR_tenancy_ocid: ${{ secrets.TF_VAR_TENANCY_OCID }}
+          TF_VAR_user_ocid: ${{ secrets.TF_VAR_USER_OCID }}
+          TF_VAR_fingerprint: ${{ secrets.TF_VAR_FINGERPRINT }}
+          TF_VAR_region: ${{ secrets.TF_VAR_REGION }}
+          TF_VAR_compartment_ocid: ${{ secrets.TF_VAR_COMPARTMENT_OCID }}
+          TF_VAR_vcn_id: ${{ secrets.TF_VAR_VCN_ID }}
+          TF_VAR_image_ocid: ${{ secrets.TF_VAR_IMAGE_OCID }}
+          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci_vm/private_key.pem"
+          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci_vm/ssh_key.pub"
+        run: terraform apply -auto-approve -input=false
+
+        
+      - name: Get VM IP from Terraform output
+        id: tf-output
+        run: |
+          terraform output -json > tf_outputs.json
+          echo "VM_IP=$(jq -r .vm_public_ip.value tf_outputs.json)" >> $GITHUB_ENV  
+
