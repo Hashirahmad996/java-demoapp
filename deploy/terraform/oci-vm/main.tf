@@ -8,12 +8,12 @@ provider "oci" {
 
 module "vm" {
   source            = "./modules/compute_instance"
-  compartment_ocid  = var.compartment_ocid
+  compartment_ocid  "GkgN:ME-DUBAI-1-AD-1"
   availability_domain = var.availability_domain
   image_ocid        = var.image_ocid
-  shape             = var.shape
-  ocpus             = var.ocpus
-  memory_in_gbs     = var.memory_in_gbs
+  shape             = "VM.Standard.E2.1.Micro"
+  ocpus             = 1
+  memory_in_gbs     = 1
   vcn_id            = var.vcn_id
   
  ssh_public_key    = var.ssh_public_key
