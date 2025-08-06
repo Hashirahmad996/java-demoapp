@@ -1,6 +1,6 @@
 # Used by `image`, `push` & `deploy` targets, override as required
 IMAGE_REG ?= ghcr.io
-IMAGE_REPO ?= benc-uk/java-demoapp
+IMAGE_REPO ?= Hashirahmad996/java-demoapp
 IMAGE_TAG ?= latest
 
 # Used by `deploy` target, sets Azure webap defaults, override as required
