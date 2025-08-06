@@ -4,7 +4,9 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
-variable "availability_domain" {}
+variable "availability_domain" {
+default = "GkgN:ME-DUBAI-1-AD-1"
+}
 variable "image_ocid" {}
 variable "shape" {
   default = "VM.Standard.A1.Flex"
