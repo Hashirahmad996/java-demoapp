@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./deploy/terraform/oci_vm
+        working-directory: ./deploy/terraform/oci-vm
 
     steps:
       - name: Checkout
@@ -42,8 +42,8 @@ jobs:
           TF_VAR_image_ocid: ${{ secrets.TF_VAR_IMAGE_OCID }}
 
           # We override the path variables to point to the files we just created
-          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci_vm/private_key.pem"
-          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci_vm/ssh_key.pub"
+          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci-vm/private_key.pem"
+          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci-vm/ssh_key.pub"
         run: terraform init -input=false
 
       - name: Terraform Validate
@@ -60,8 +60,8 @@ jobs:
           TF_VAR_compartment_ocid: ${{ secrets.TF_VAR_COMPARTMENT_OCID }}
           TF_VAR_vcn_id: ${{ secrets.TF_VAR_VCN_ID }}
           TF_VAR_image_ocid: ${{ secrets.TF_VAR_IMAGE_OCID }}
-          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci_vm/private_key.pem"
-          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci_vm/ssh_key.pub"
+          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci-vm/private_key.pem"
+          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci-vm/ssh_key.pub"
         run: terraform plan -no-color -input=false
 
       - name: Terraform Apply
@@ -73,8 +73,8 @@ jobs:
           TF_VAR_compartment_ocid: ${{ secrets.TF_VAR_COMPARTMENT_OCID }}
           TF_VAR_vcn_id: ${{ secrets.TF_VAR_VCN_ID }}
           TF_VAR_image_ocid: ${{ secrets.TF_VAR_IMAGE_OCID }}
-          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci_vm/private_key.pem"
-          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci_vm/ssh_key.pub"
+          TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci-vm/private_key.pem"
+          TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci-vm/ssh_key.pub"
         run: terraform apply -auto-approve -input=false
 
         
