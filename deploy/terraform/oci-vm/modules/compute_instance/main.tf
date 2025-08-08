@@ -42,7 +42,7 @@ resource "oci_core_instance" "vm" {
   user_data = base64encode(<<-EOF
                 #!/bin/bash
 
-                docker run -d -p 8080:8080 ghcr.io/hashirahmad996/java-demoapp:05-08-2025.1637:latest 
+                docker run -d -p 8080:8080 ghcr.io/hashirahmad996/java-demoapp:05-08-2025.1637
                 EOF
     )
  
