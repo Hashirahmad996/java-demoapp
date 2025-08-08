@@ -16,11 +16,13 @@ jobs:
         working-directory: ./deploy/terraform/oci-vm
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        
       - name: Delay if specified
         run: sleep $(( ${{ github.event.inputs.delay }} * 60 ))
 
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
