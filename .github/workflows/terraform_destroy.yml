@@ -22,7 +22,10 @@ jobs:
       - name: Delay if specified
         run: sleep $(( ${{ github.event.inputs.delay }} * 60 ))
 
-      
+      - name: Create Private Key File
+        run: |
+          echo "${{ secrets.TF_VAR_private_key_path }}" > private_key.pem
+          chmod 600 private_key.pem
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
