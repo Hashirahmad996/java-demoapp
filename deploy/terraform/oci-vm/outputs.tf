@@ -1,3 +1,3 @@
 output "vm_public_ip" {
-  value = oci_core_instance.vm.public_ip
+  value = module.vm.vm_public_ip
 }
