@@ -88,8 +88,20 @@ jobs:
 
         
       - name: Get VM IP from Terraform output
-        id: tf-output
         run: |
           terraform output -json > tf_outputs.json
-          echo "VM_IP=$(jq -r .vm_public_ip.value tf_outputs.json)" >> $GITHUB_ENV  
+          if ! jq -e '.vm_public_ip' tf_outputs.json >/dev/null; then
+            echo "❌ vm_public_ip output not found in Terraform state."
+            cat tf_outputs.json
+            exit 1
+          fi
+          echo "VM_IP=$(jq -r .vm_public_ip.value tf_outputs.json)" >> $GITHUB_ENV
+          echo "✅ VM Public IP: $(jq -r .vm_public_ip.value tf_outputs.json)" 
+
+      - name: Schedule Destroy in 10 min
+        run: gh workflow run terraform_destroy.yml --repo ${{ github.repository }} --field delay=10
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
 
