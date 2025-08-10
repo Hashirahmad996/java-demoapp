@@ -5,6 +5,10 @@ on:
     workflows: ["CI Build App"]
     types:
       - completed
+permissions:
+  actions: write
+  contents: write
+    
 
 jobs:
   terraform:
