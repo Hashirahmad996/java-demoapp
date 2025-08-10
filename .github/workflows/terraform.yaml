@@ -86,9 +86,12 @@ jobs:
           TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci-vm/ssh_key.pub"
         run: terraform apply -auto-approve -input=false
       
+      - name: Give permission
+        run: chmod +x "${{ github.workspace }}/.github/scripts/vm_public_ip.sh" 
         
       - name: Get VM IP
-        run: bash .github/scripts/vm_public_ip.sh
+        run: bash "${{ github.workspace }}/.github/scripts/vm_public_ip.sh"
+
        
       
 
