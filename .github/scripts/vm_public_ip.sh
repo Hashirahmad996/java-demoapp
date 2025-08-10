@@ -24,7 +24,7 @@ if ! jq -e '.vm_public_ip.value' tf_outputs.json >/dev/null; then
 fi
 
 VM_IP=$(jq -r '.vm_public_ip.value' tf_outputs.json)
-echo "✅ VM Public IP: $VM_IP"
+echo "✅  Public IP: $VM_IP"
 
 # --- If running in GitHub Actions, export to environment ---
 if [ -n "${GITHUB_ENV:-}" ]; then
