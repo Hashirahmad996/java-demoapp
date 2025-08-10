@@ -7,6 +7,10 @@ on:
         description: 'Delay in minutes before destroy'
         required: false
         default: '0'
+permissions:
+  actions: write
+  contents: write
+      
 
 jobs:
   destroy:
