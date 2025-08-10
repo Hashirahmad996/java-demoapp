@@ -88,13 +88,9 @@ jobs:
         
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
-
-      - name: Terraform output
-        id: tf-output
-        run: |
-          terraform output -json | tee tf_outputs.json | jq
         
       - name: Get VM IP from Terraform output
+        working-directory: ./deploy/terraform/oci-vm
         env:
           TF_VAR_tenancy_ocid: ${{ secrets.TF_VAR_TENANCY_OCID }}
           TF_VAR_user_ocid: ${{ secrets.TF_VAR_USER_OCID }}
@@ -106,7 +102,12 @@ jobs:
           TF_VAR_private_key_path: "${{ github.workspace }}/deploy/terraform/oci-vm/private_key.pem"
           TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci-vm/ssh_key.pub"
         run: |
-          terraform output -json > tf_outputs.json
+          terraform output -json -no-color | tee tf_outputs.json
+          if ! jq -e '.vm_public_ip.value' tf_outputs.json >/dev/null; then
+            echo "❌ vm_public_ip output not found in Terraform state."
+            cat tf_outputs.json
+            exit 1
+          fi
           VM_IP=$(jq -r '.vm_public_ip.value' tf_outputs.json)
           echo "VM_IP=$VM_IP" >> $GITHUB_ENV
           echo "✅ VM Public IP: $VM_IP"
