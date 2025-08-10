@@ -86,7 +86,13 @@ jobs:
           TF_VAR_ssh_public_key: "${{ github.workspace }}/deploy/terraform/oci-vm/ssh_key.pub"
         run: terraform apply -auto-approve -input=false
         
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
+      - name: Terraform output
+        id: tf-output
+        run: |
+          terraform output -json > tf_outputs.json | cat tf_outputs.json
         
       - name: Get VM IP from Terraform output
         env:
