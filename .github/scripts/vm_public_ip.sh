@@ -2,7 +2,7 @@
 set -e
 
 echo "📜 Retrieving VM public IP..."
-VM_IP=$(terraform output -raw vm_public_ip || true)
+VM_IP=$(terraform output -raw vm_public_ip || head -n 1)
 
 if [ -z "$VM_IP" ]; then
   echo "❌ vm_public_ip output not found in Terraform state."
