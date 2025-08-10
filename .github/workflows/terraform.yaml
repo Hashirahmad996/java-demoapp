@@ -1,4 +1,4 @@
-name: 'Setup Infra and Deploy the Application'
+name: 'Setup Infra and Deploy Application'
 
 on:
   workflow_run:
