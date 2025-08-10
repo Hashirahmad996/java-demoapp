@@ -92,7 +92,7 @@ jobs:
       - name: Terraform output
         id: tf-output
         run: |
-          terraform output -json > tf_outputs.json | cat tf_outputs.json
+          terraform output -json | tee tf_outputs.json | jq
         
       - name: Get VM IP from Terraform output
         env:
