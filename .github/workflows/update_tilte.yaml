@@ -1,0 +1,27 @@
+name: Update Home Title
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: "Title for home.ftl"
+        required: true
+        default: "Default Title"
+
+jobs:
+  update-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update home.ftl title
+        run: |
+          sed -i "s|<title>.*</title>|<title>${{ github.event.inputs.title }}</title>|" src/main/resources/templates/home.ftl
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "Update home title to ${{ github.event.inputs.title }}"
+          git push
