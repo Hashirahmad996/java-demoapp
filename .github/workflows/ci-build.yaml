@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "src/**"
-      - ".github/workflows/**"
+  #    - "src/**"
+  #    - ".github/workflows/**"
   pull_request:
 
 env:
