@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       heading:
-        description: "H2 heading for home.ftl"
+        description: "Heading text for home.ftl"
         required: true
         default: "Default Heading"
 
@@ -17,11 +17,13 @@ jobs:
 
       - name: Update home.ftl H2
         run: |
-          sed -i "s|<h2>.*</h2>|<h2>Java Demo Hi,${{ github.event.inputs.heading }}</h2>|" src/main/resources/templates/home.ftl
+          HEADING="${{ github.event.inputs.heading }}"
+          sed -i "s|<h2>.*</h2>|<h2>Hi, then ${HEADING}</h2>|" src/main/resources/templates/home.ftl
 
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -am "Update home H2 to ${{ github.event.inputs.heading }}"
+          git add src/main/resources/templates/home.ftl
+          git commit -m "Update home H2 to Hi, then ${{ github.event.inputs.heading }}" || echo "No changes to commit"
           git push
