@@ -1,29 +1,27 @@
-name: Update Home H2
+name: Update Home Title
 
 on:
   workflow_dispatch:
     inputs:
-      heading:
-        description: "Heading text for home.ftl"
+      title:
+        description: "Title for home.ftl"
         required: true
-        default: "Default Heading"
+        default: "Default Title"
 
 jobs:
-  update-h2:
+  update-title:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update home.ftl H2
+      - name: Update home.ftl title
         run: |
-          HEADING="${{ github.event.inputs.heading }}"
-          sed -i "s|<h2>.*</h2>|<h2>Hi, then ${HEADING}</h2>|" src/main/resources/templates/home.ftl
+          sed -i "s|<title>.*</title>|<title>${{ github.event.inputs.title }}</title>|" src/main/resources/templates/home.ftl
 
       - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/main/resources/templates/home.ftl
-          git commit -m "Update home H2 to Hi, then ${{ github.event.inputs.heading }}" || echo "No changes to commit"
+          git commit -am "Update home title to ${{ github.event.inputs.title }}"
           git push
