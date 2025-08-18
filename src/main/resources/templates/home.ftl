@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>hashir ahmad</title>
+  <title>My New CI Title</title>
 </head>
 
 <body>
