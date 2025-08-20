@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>{{['body']['username']}}</title>
+  <title>=hashir ahmad</title>
 </head>
 
 <body>
