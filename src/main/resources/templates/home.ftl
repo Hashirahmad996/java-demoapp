@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>={{.username}}</title>
+  <title>{{['body']['username']}}</title>
 </head>
 
 <body>
