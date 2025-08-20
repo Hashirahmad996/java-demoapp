@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>My New CI Title</title>
+  <title>={{.username}}</title>
 </head>
 
 <body>
