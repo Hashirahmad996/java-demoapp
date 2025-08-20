@@ -61,7 +61,9 @@ jobs:
         run: echo "IMAGE_TAG=$(date +%d-%m-%Y.%H%M)" >> $GITHUB_ENV
 
       - name: "Docker build image"
-        run: make image
+        run: | 
+          make image
+          make image IMAGE_TAG=latest
 
       # Only when pushing to default branch (e.g. master or main), then push image to registry
       - name: "Push to container registry"
