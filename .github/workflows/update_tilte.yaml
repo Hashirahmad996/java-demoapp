@@ -25,3 +25,8 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git commit -am "Update home title to ${{ github.event.inputs.title }}"
           git push
+      - name: Notify n8n of deployment status
+        run: |
+          curl -X POST ${{ secrets.N8N_WEBHOOK_URL }} \
+          -H "Content-Type: application/json" \
+          -d '{ "status": "success", "app_url": "http://your-app.example.com", "monitor_url": "http://monitor.example.com" }'    
