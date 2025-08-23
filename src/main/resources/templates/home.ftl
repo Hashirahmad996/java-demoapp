@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>my portfolio12</title>
+  <title>my portfolio</title>
 </head>
 
 <body>
