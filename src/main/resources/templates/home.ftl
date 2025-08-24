@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>HA_MK</title>
+  <title>done</title>
 </head>
 
 <body>
