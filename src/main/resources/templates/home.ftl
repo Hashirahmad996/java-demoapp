@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>my portfolio</title>
+  <title>devops portfolio</title>
 </head>
 
 <body>
