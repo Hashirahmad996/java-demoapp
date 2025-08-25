@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>fefeefef</title>
+  <title>final round</title>
 </head>
 
 <body>
