@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>hello app</title>
+  <title>my final app</title>
 </head>
 
 <body>
