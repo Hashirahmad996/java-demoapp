@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>wehook</title>
+  <title>webhook123</title>
 </head>
 
 <body>
