@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>hello hashir</title>
+  <title>me hashir</title>
 </head>
 
 <body>
