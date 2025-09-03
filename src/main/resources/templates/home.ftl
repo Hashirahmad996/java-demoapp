@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>edfdssddsds</title>
+  <title>hello</title>
 </head>
 
 <body>
