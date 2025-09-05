@@ -3,7 +3,7 @@
 
 <head>
   <#include "_head.ftl">
-  <title>dsdsdsds</title>
+  <title>sd heelo</title>
 </head>
 
 <body>
